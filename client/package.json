@@ -11,7 +11,11 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "axios": "^0.18.0",
-    "styled-components": "^4.1.1"
+    "styled-components": "^4.1.1",
+    "react-icons": "^3.2.2",
+    "react-typography": "^0.16.13",
+    "typography": "^0.16.17",
+    "styled-reset": "^1.6.1"
   },
   "scripts": {
     "start": "react-scripts start",

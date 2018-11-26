@@ -1,14 +1,16 @@
 import React from 'react';
+import Home from './home';
 import store from './store';
 import { Provider } from 'react-redux';
+import Theme from './theme';
 
 class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <div>
-          <h1>Aqui</h1>
-        </div>
+        <Theme>
+          <Home />
+        </Theme>
       </Provider>
     );
   }
