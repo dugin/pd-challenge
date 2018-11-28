@@ -1,22 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
-import Header from '../header';
+import Header from '../components/header';
+import FloatingButton from '../domain/floating-button';
 class Home extends React.PureComponent {
   render() {
     return (
       <HomeWrapper>
         <Header />
-        <h1>asidhasiudh</h1>
+        <HomeContent>
+          <h1>asoihadsoisah</h1>
+
+          <FloatingButton />
+        </HomeContent>
       </HomeWrapper>
     );
   }
 }
 
-const HomeWrapper = styled.section`
+const HomeWrapper = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
+`;
+
+const HomeContent = styled.section`
+  padding-top: 80px;
+
+  flex: 1;
 `;
 
 export default Home;
