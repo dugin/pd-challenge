@@ -1,6 +1,6 @@
 import React from 'react';
 import { GoogleFont, TypographyStyle } from 'react-typography';
-import { ThemeProvider } from 'styled-components';
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import typography from './typography';
 
 const Theme = ({ children }) => {
@@ -9,17 +9,37 @@ const Theme = ({ children }) => {
       <section>
         <TypographyStyle typography={typography} />
         <GoogleFont typography={typography} />
+        <GlobalStyle />
         {children}
       </section>
     </ThemeProvider>
   );
 };
 
+const GlobalStyle = createGlobalStyle`
+    
+   body{ 
+   
+   input {
+     border: none;
+  outline: none;
+  color: #000;
+  font-size: 0.75rem;
+  z-index: 1;
+  width: 100%;
+  padding-right: 1rem;
+  padding-left: 1rem;
+    }
+    
+    }
+`;
+
 const theme = {
   colors: {
     background: '#fafafa',
     backgroundTwo: '#fff',
     accent: '#FFCE70',
+    primary: '#000',
     palePurple: '#ba7fd8',
     pinkPurple: '#c545df',
     sandy: '#f4db6f',

@@ -8,8 +8,6 @@ class Home extends React.PureComponent {
       <HomeWrapper>
         <Header />
         <HomeContent>
-          <h1>asoihadsoisah</h1>
-
           <FloatingButton />
         </HomeContent>
       </HomeWrapper>
@@ -26,7 +24,6 @@ const HomeWrapper = styled.div`
 
 const HomeContent = styled.section`
   padding-top: 80px;
-
   flex: 1;
 `;
 
