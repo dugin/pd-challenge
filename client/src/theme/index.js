@@ -1,12 +1,14 @@
 import React from 'react';
-import { GoogleFont, TypographyStyle } from 'react-typography';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import typography from './typography';
 
 const Theme = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
-      <section>{children}</section>
+      <section>
+        <GlobalStyle />
+        {children}
+      </section>
     </ThemeProvider>
   );
 };

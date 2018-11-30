@@ -25,8 +25,10 @@ const HomeWrapper = styled.div`
 `;
 
 const HomeContent = styled.section`
-  padding-top: 80px;
+  padding-top: 100px;
   flex: 1;
+  margin: auto;
+  max-width: 1024px;
 `;
 
 export default Home;
