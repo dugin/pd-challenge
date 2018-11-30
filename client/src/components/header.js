@@ -39,6 +39,7 @@ const HeaderWrapper = styled.div`
 
 const FormWrapper = styled.form`
   width: 70%;
+  margin-bottom: 0;
 
   ${media.phone`
       width: 100%;

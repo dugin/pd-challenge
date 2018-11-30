@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import InputWrapper from '../components/input-wrapper';
 import { FaPlus, FaTimes } from 'react-icons/fa';
 import guid from '../helpers/uid-generator';
+import axios from 'axios';
 
 const whiteBackground = { backgroundColor: 'white' };
 
@@ -45,9 +46,15 @@ class CreateRecord extends Component {
     }));
   };
 
-  onSubmit = () => {
+  onSubmit = async () => {
     this.setState({ navigateBack: true });
     console.log('state ', this.state);
+
+    const { navigateBack, ...record } = this.state;
+
+    const { data } = await axios.post('http://localhost:8000/record', { ...record });
+
+    console.log('gloria!!! ', data);
   };
 
   render() {
