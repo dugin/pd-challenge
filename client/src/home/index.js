@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import Header from '../components/header';
 import FloatingButton from '../domain/floating-button';
-class Home extends React.PureComponent {
+import Record from '../record';
+class Home extends Component {
   render() {
     return (
       <HomeWrapper>
         <Header />
         <HomeContent>
+          <Record />
           <FloatingButton />
         </HomeContent>
       </HomeWrapper>

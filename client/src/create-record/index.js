@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import InputWrapper from '../components/input-wrapper';
@@ -6,8 +6,15 @@ import { FaPlus, FaTimes } from 'react-icons/fa';
 import guid from '../helpers/uid-generator';
 
 const whiteBackground = { backgroundColor: 'white' };
-class CreateRecord extends React.Component {
-  state = { musics: [{ id: guid(), name: '' }], name: '', artist: '', navigateBack: false };
+
+class CreateRecord extends Component {
+  state = {
+    musics: [{ id: guid(), name: '' }],
+    name: '',
+    artist: '',
+    imageUrl: '',
+    navigateBack: false
+  };
 
   handleChange = prop => event => {
     this.setState({ [prop]: event.target.value });
@@ -39,11 +46,12 @@ class CreateRecord extends React.Component {
   };
 
   onSubmit = () => {
+    this.setState({ navigateBack: true });
     console.log('state ', this.state);
   };
 
   render() {
-    const { musics, name, artist, navigateBack } = this.state;
+    const { musics, name, artist, navigateBack, imageUrl } = this.state;
 
     if (navigateBack) {
       return <Redirect to="/" />;
@@ -64,12 +72,21 @@ class CreateRecord extends React.Component {
               />
             </InputWrapper>
 
-            <InputWrapper style={whiteBackground}>
+            <InputWrapper style={{ ...whiteBackground, marginBottom: 10 }}>
               <input
                 type="text"
                 placeholder="Artista"
                 value={artist}
                 onChange={this.handleChange('artist')}
+              />
+            </InputWrapper>
+
+            <InputWrapper style={whiteBackground}>
+              <input
+                type="text"
+                placeholder="URL da imagem"
+                value={imageUrl}
+                onChange={this.handleChange('imageUrl')}
               />
             </InputWrapper>
 

@@ -2,7 +2,7 @@ import Typography from 'typography';
 
 const typography = new Typography({
   baseFontSize: '18px',
-  baseLineHeight: 0,
+  baseLineHeight: 1,
   googleFonts: [
     {
       name: 'Montserrat',
