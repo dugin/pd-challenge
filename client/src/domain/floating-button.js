@@ -26,7 +26,6 @@ const Button = styled(Link)`
   background-color: ${props => props.theme.colors.accent};
 
   &:hover {
-    cursor: pointer;
     box-shadow: 2px 4px 8px 0 rgba(46, 61, 73, 0.2);
   }
 `;

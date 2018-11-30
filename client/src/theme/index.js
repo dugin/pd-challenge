@@ -31,6 +31,12 @@ const GlobalStyle = createGlobalStyle`
   padding-left: 1rem;
     }
     
+   ul{
+    list-style: none;
+   }
+    a:hover, button:hover{
+      cursor: pointer;
+    }
     }
 `;
 
