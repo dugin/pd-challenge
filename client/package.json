@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "awesome-debounce-promise": "^1.0.0",
     "axios": "^0.18.0",
+    "query-string": "^6.2.0",
+    "ramda": "^0.26.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-icons": "^3.2.2",

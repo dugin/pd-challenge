@@ -13,7 +13,7 @@ const Header = props => {
       <FormWrapper>
         <InputWrapper>
           <SearchIcon />
-          <input type="text" placeholder="Buscar disco" />
+          <input type="text" placeholder="Buscar disco" onChange={props.onSearch} />
         </InputWrapper>
       </FormWrapper>
     </HeaderWrapper>

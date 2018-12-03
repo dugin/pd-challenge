@@ -13,12 +13,12 @@ const FloatingButton = () => {
 };
 
 const Button = styled(Link)`
-  position: absolute;
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
-  bottom: 20px;
-  right: 20px;
+  bottom: 15px;
+  right: 15px;
   border-radius: 50%;
   height: 60px;
   width: 60px;

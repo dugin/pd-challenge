@@ -2,13 +2,17 @@ const express = require('express');
 
 const recordController = require('../controllers/record');
 
+const isThereARecord = require('../middlewares/record');
+const inputValidation = require('../middlewares/validation');
+
 const router = express.Router();
 
 router.get('/records', recordController.getRecords);
 
-router.delete('/record', recordController.deleteRecord);
-router.post('/record', recordController.postRecord);
+router.post('/record', inputValidation, recordController.postRecord);
 
-router.get('/record/:recordId', recordController.getRecord);
+router.get('/record/:recordId', isThereARecord, recordController.getRecord);
+router.delete('/record/:recordId', isThereARecord, recordController.deleteRecord);
+router.put('/record/:recordId', inputValidation, isThereARecord, recordController.updateRecord);
 
 module.exports = router;

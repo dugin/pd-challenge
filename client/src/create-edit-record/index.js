@@ -1,21 +1,42 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import InputWrapper from '../components/input-wrapper';
 import { FaPlus, FaTimes } from 'react-icons/fa';
+import { deleteRecord, fetchRecord, putRecord, postRecord } from '../domain/domain.requests';
 import guid from '../helpers/uid-generator';
-import axios from 'axios';
-
+import * as R from 'ramda';
 const whiteBackground = { backgroundColor: 'white' };
 
-class CreateRecord extends Component {
+const RECORD_MODE = { EDIT: 'edit', CREATE: 'create' };
+
+class CreateEditRecord extends Component {
   state = {
     musics: [{ id: guid(), name: '' }],
     name: '',
     artist: '',
     imageUrl: '',
-    navigateBack: false
+    navigateBack: false,
+    recordMode: RECORD_MODE.CREATE
   };
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    const errorType = R.path(['error', 'type'], nextProps);
+    if (errorType === 'RECORD_NOT_FOUND') {
+      this.setState({ navigateBack: true });
+    }
+  }
+
+  async componentDidMount() {
+    const recordId = R.path(['match', 'params', 'recordId'], this.props);
+
+    if (recordId) {
+      await this.props.getRecord(recordId);
+
+      this.setState(state => ({ ...state, ...this.props.record, recordMode: RECORD_MODE.EDIT }));
+    }
+  }
 
   handleChange = prop => event => {
     this.setState({ [prop]: event.target.value });
@@ -46,19 +67,37 @@ class CreateRecord extends Component {
     }));
   };
 
-  onSubmit = async () => {
-    this.setState({ navigateBack: true });
-    console.log('state ', this.state);
-
-    const { navigateBack, ...record } = this.state;
-
-    const { data } = await axios.post('http://localhost:8000/record', { ...record });
-
-    console.log('gloria!!! ', data);
+  removeRecord = async () => {
+    await this.props.removeRecord(this.state.id);
+    if (!this.props.error) {
+      this.setState({ navigateBack: true });
+    }
   };
 
+  onSubmit = async () => {
+    const { navigateBack, recordMode, ...record } = this.state;
+
+    if (recordMode === RECORD_MODE.CREATE) {
+      await this.props.addRecord(record);
+    } else {
+      await this.props.updateRecord(record);
+    }
+
+    if (!this.props.error) {
+      this.setState({ navigateBack: true });
+    }
+  };
+
+  renderErrorMessage() {
+    const errorMsg = R.path(['error', '0', 'msg'], this.props);
+
+    if (errorMsg) {
+      return <ErrorMessage>*{errorMsg}</ErrorMessage>;
+    }
+  }
+
   render() {
-    const { musics, name, artist, navigateBack, imageUrl } = this.state;
+    const { musics, name, artist, navigateBack, imageUrl, recordMode } = this.state;
 
     if (navigateBack) {
       return <Redirect to="/" />;
@@ -67,7 +106,7 @@ class CreateRecord extends Component {
     return (
       <CreateRecordWrapper>
         <CreateRecordBox>
-          <h1>Novo Disco</h1>
+          <h1> {recordMode === RECORD_MODE.CREATE ? 'Novo Disco' : 'Editar Disco'}</h1>
 
           <CreateRecordForm>
             <InputWrapper style={{ ...whiteBackground, marginBottom: 10 }}>
@@ -78,7 +117,6 @@ class CreateRecord extends Component {
                 onChange={this.handleChange('name')}
               />
             </InputWrapper>
-
             <InputWrapper style={{ ...whiteBackground, marginBottom: 10 }}>
               <input
                 type="text"
@@ -87,7 +125,6 @@ class CreateRecord extends Component {
                 onChange={this.handleChange('artist')}
               />
             </InputWrapper>
-
             <InputWrapper style={whiteBackground}>
               <input
                 type="text"
@@ -96,14 +133,12 @@ class CreateRecord extends Component {
                 onChange={this.handleChange('imageUrl')}
               />
             </InputWrapper>
-
             <MusicTitleWrapper>
               <MusicTitle>Músicas</MusicTitle>
               <AddButton onClick={this.addMusic}>
                 <PlusIcon />
               </AddButton>
             </MusicTitleWrapper>
-
             <MusicList>
               {musics.map((music, i) => (
                 <MusicListItem key={music.id}>
@@ -123,9 +158,14 @@ class CreateRecord extends Component {
                 </MusicListItem>
               ))}
             </MusicList>
-
+            {this.renderErrorMessage()}
             <CreateRecordButtonWrapper>
-              <CreateRecordButton onClick={this.onSubmit}>cadastrar</CreateRecordButton>
+              {recordMode === RECORD_MODE.EDIT && (
+                <EraseRecordButton onClick={this.removeRecord}>apagar</EraseRecordButton>
+              )}
+              <CreateRecordButton onClick={this.onSubmit}>
+                {recordMode === RECORD_MODE.CREATE ? 'cadastrar' : 'salvar'}
+              </CreateRecordButton>
             </CreateRecordButtonWrapper>
           </CreateRecordForm>
         </CreateRecordBox>
@@ -173,6 +213,13 @@ const CreateRecordButton = styled.a`
   padding: 10px;
 `;
 
+const EraseRecordButton = styled(CreateRecordButton)`
+  background-color: transparent;
+  margin-right: 30px;
+  color: red;
+  border-color: red;
+`;
+
 const MusicTitleWrapper = styled.div`
   flex-direction: row;
   display: flex;
@@ -209,10 +256,31 @@ const RemoveButton = styled(AddButton)`
   height: 30px;
   width: 30px;
   background-color: red;
+  font-size: 12px;
 `;
 
 const RemoveIcon = styled(FaTimes)`
   color: white;
 `;
 
-export default CreateRecord;
+const ErrorMessage = styled.p`
+  color: red;
+`;
+
+function mapStateToProps({ domain }) {
+  return {
+    record: domain.selectedRecord,
+    error: domain.error
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addRecord: record => dispatch(postRecord(record)),
+    getRecord: recordId => dispatch(fetchRecord(recordId)),
+    removeRecord: recordId => dispatch(deleteRecord(recordId)),
+    updateRecord: record => dispatch(putRecord(record))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateEditRecord);

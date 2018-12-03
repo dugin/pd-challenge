@@ -5,4 +5,6 @@ const sequelize = new Sequelize('pd-challenge', 'root', '12345678', {
   host: 'localhost'
 });
 
+
+
 module.exports = sequelize;

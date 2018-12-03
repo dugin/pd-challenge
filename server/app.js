@@ -13,18 +13,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(recordRoutes);
+
 Record.hasMany(Music);
 
 startApp();
 
 async function startApp() {
   try {
-    await sequelize
-      // .sync({ force: true })
-      .sync();
+    await sequelize.sync();
 
     app.listen(8000);
   } catch (e) {
-    console.log('e ', e);
+    console.log('erro ', e);
   }
 }

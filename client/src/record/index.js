@@ -1,24 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-class Record extends Component {
-  render() {
-    return (
-      <RecordWrapper>
-        <RecordImage src="data:image/png;base64,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" />
-        <RecordName>Bla bla</RecordName>
+const Record = ({ record }) => {
+  return (
+    <RecordWrapper to={'record/' + record.id}>
+      <RecordImage src={record.imageUrl} />
+      <RecordName>{record.name}</RecordName>
 
-        <ArtistName>Pink Floyd</ArtistName>
-      </RecordWrapper>
-    );
-  }
-}
+      <ArtistName>{record.artist}</ArtistName>
+    </RecordWrapper>
+  );
+};
 
-const RecordWrapper = styled.div`
+const RecordWrapper = styled(Link)`
   display: flex;
   flex-direction: column;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.07);
   width: 150px;
+  height: 250px;
+  margin: 10px;
+  text-decoration: none;
 `;
 
 const RecordImage = styled.img`
@@ -30,6 +32,15 @@ const RecordName = styled.p`
   margin: 5px 0 10px 0;
   padding-left: 10px;
   font-size: 16px;
+  color: rgba(0, 0, 0, 0.8);
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-height: 20px;
+  max-height: 40px;
 `;
 const ArtistName = styled.p`
   font-size: 12px;

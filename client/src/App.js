@@ -1,11 +1,11 @@
 import React from 'react';
-import CreateRecord from './create-record';
+import CreateEditRecord from './create-edit-record';
 import ROUTES from './helpers/routes';
 import Home from './home';
 import store from './store';
 import { Provider } from 'react-redux';
 import Theme from './theme';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 class App extends React.Component {
   render() {
@@ -14,7 +14,8 @@ class App extends React.Component {
         <Router>
           <Theme>
             <Route path="/" exact component={Home} />
-            <Route path={ROUTES.NEW_RECORD} component={CreateRecord} />
+            <Route path={ROUTES.NEW_RECORD} component={CreateEditRecord} />
+            <Route path={ROUTES.EDIT_RECORD} component={CreateEditRecord} />
           </Theme>
         </Router>
       </Provider>
